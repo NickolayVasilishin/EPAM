@@ -1,6 +1,5 @@
 package com.epam.javase01.t02;
 
-import java.util.DoubleSummaryStatistics;
 import java.util.LinkedList;
 import java.util.List;
 

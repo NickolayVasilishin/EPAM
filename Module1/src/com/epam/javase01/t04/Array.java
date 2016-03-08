@@ -6,10 +6,18 @@ package com.epam.javase01.t04;
 public class Array {
 
     public static double max(double[] array) {
+        return getMax(transformArray(array));
+    }
+
+    private static double[] transformArray(double[] array) {
         //Elvis just divides int there properly.
         double[] transformedArray = new double[array.length % 2 == 1 ? array.length/2 + 1 : array.length/2];
         for(int i=0, j=array.length-1; i <= j; i++, j--)
             transformedArray[i] = array[i] + array[j];
+        return transformedArray;
+    }
+
+    private static double getMax(double[] transformedArray) {
         double max = transformedArray[0];
         for(double d:transformedArray)
             if(d > max)
