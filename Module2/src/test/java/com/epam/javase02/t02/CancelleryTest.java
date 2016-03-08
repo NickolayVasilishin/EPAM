@@ -5,7 +5,7 @@ import com.epam.javase02.t02.item.Clip;
 import com.epam.javase02.t02.item.Eraser;
 import com.epam.javase02.t02.item.Paper;
 import com.epam.javase02.t02.item.Pen;
-import com.epam.javase02.t02.preson.Person;
+import com.epam.javase02.t02.person.Person;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ public class CancelleryTest {
     }
 
     @Test
-    public void calculateCostTest() {
+    public void calculateCost() {
         assertEquals(cancellery.calculateCost(personAnn), 88);
         assertEquals(cancellery.calculateCost(personDavid), 144);
     }

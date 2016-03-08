@@ -1,8 +1,5 @@
 package com.epam.javase02.t02.item;
 
-import com.epam.javase02.t02.item.Paper;
-import com.epam.javase02.t02.preson.Person;
-
 /**
  * Created by Nick on 04.03.2016.
  */
@@ -12,10 +9,6 @@ public abstract class CancelleryItem {
     protected String manufacturer;
     protected String owner;
     protected int cost;
-
-    public CancelleryItem(String manufacturer, Person owner, int cost) {
-        this(manufacturer, owner.getName(), cost);
-    }
 
     public CancelleryItem(String manufacturer, String owner, int cost) {
         this.manufacturer = manufacturer;
@@ -46,5 +39,19 @@ public abstract class CancelleryItem {
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
         result = 31 * result + cost;
         return result;
+    }
+
+    /**
+     * Use this method when overriding toString() method.
+     * Method wraps user-defined information in standard cancellery output.
+     * @param concreteInfo - some class-specific information (e.g. pen inc color).
+     * @return - prepared for output string.
+     */
+    public String toString(String concreteInfo) {
+        return getClass().getSimpleName() + " "
+                + concreteInfo + ". "
+                + "Manufacturer: " + manufacturer +
+                "; owner: " + owner +
+                "; cost: " + cost;
     }
 }

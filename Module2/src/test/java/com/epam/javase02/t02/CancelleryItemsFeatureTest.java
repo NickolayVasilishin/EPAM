@@ -4,11 +4,12 @@ import com.epam.javase02.t02.item.Clip;
 import com.epam.javase02.t02.item.Eraser;
 import com.epam.javase02.t02.item.Paper;
 import com.epam.javase02.t02.item.Pen;
-import com.epam.javase02.t02.preson.Person;
+import com.epam.javase02.t02.person.Person;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class CancelleryItemsFeatureTest {
     @Test
     public void penWritesToPaper() {
         pen.writeTo(papers.get(0), "First note");
-        assertEquals(papers.get(0).toString(), "First note");
+        assertEquals(papers.get(0).toString(), "Paper First note. Manufacturer: man; owner: me; cost: 1");
     }
 
     @Test
@@ -51,7 +52,7 @@ public class CancelleryItemsFeatureTest {
         field.set(papers.get(0), new StringBuilder().append("First note"));
 
         eraser.erase(papers.get(0), "note");
-        assertEquals(papers.get(0).toString(), "First ");
+        assertEquals(papers.get(0).getText(), "First ");
     }
 
     @Test
@@ -62,9 +63,7 @@ public class CancelleryItemsFeatureTest {
     @Test
     public void clipPersonPapers() {
         Person p = new Person("me").addItem(papers.get(0)).addItem(papers.get(1)).addItem(pen).addItem(eraser).addItem(papers.get(1));
-//TODO
-//        clip.clipPapers(p.getAllOf(Paper.class));
+        clip.clipPapers( (List<Paper>)(List<?>)  p.getAllOf(Paper.class));
+        assertFalse(clip.isUnclipped());
     }
-
-
 }

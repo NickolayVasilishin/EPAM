@@ -2,6 +2,10 @@ package com.epam.javase02.t02.item;
 
 /**
  * Created by Nick on 04.03.2016.
+ *
+ * Model of paper. Used to store notes.
+ * Add notes via {@link Pen}
+ * Remove notes via {@link Eraser}
  */
 public class Paper extends CancelleryItem {
     private StringBuilder notes;
@@ -9,6 +13,10 @@ public class Paper extends CancelleryItem {
     public Paper(String manufacturer, String owner, int cost) {
         super(manufacturer, owner, cost);
         notes = new StringBuilder();
+    }
+
+    public String getText() {
+        return notes.toString();
     }
 
     Paper write(String note) {
@@ -23,7 +31,7 @@ public class Paper extends CancelleryItem {
 
     @Override
     public String toString() {
-        return notes.toString();
+        return super.toString(notes.toString());
     }
 
     @Override

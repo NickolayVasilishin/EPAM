@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Created by Nick on 04.03.2016.
+ *
+ * Clip is used to physically group papers.
  */
 public class Clip extends CancelleryItem{
     List<Paper> clippedPapers;
@@ -18,10 +20,10 @@ public class Clip extends CancelleryItem{
         if (clippedPapers != null)
             throw new IllegalStateException("This clip is already used for another papers");
         else {
-            List<Paper> clippedPapers = new LinkedList<>();
-            Collections.addAll(clippedPapers, papers);
+            List<Paper> cPapers = new LinkedList<>();
+            Collections.addAll(cPapers, papers);
+            return clipPapers(cPapers);
         }
-           return clipPapers(clippedPapers);
     }
 
     public List<Paper> clipPapers(List<Paper> papers) {
@@ -60,5 +62,10 @@ public class Clip extends CancelleryItem{
         int result = super.hashCode();
         result = 31 * result + (clippedPapers != null ? clippedPapers.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString(clippedPapers == null ? "Empty" : clippedPapers.toString());
     }
 }

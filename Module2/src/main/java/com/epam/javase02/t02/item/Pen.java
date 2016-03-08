@@ -6,6 +6,8 @@ import java.awt.Color;
 
 /**
  * Created by Nick on 04.03.2016.
+ *
+ * Only pen can be used to add notes to paper.
  */
 public class Pen extends CancelleryItem{
     protected static final Color DEFAULT_COLOR = Color.BLUE;
@@ -62,6 +64,11 @@ public class Pen extends CancelleryItem{
         result = 31 * result + (incColor != null ? incColor.hashCode() : 0);
         result = 31 * result + lineWidth;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString("color: " + incColor + "; line width: " + lineWidth);
     }
 }
 

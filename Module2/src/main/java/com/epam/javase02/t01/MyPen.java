@@ -8,6 +8,9 @@ import java.awt.print.Paper;
 
 /**
  * Created by Nick on 04.03.2016.
+ *
+ * Used to extend base class here to avoid duplicating code.
+ * Pen class has to be defined in another package to get access to package-private fields.
  */
 public class MyPen extends Pen{
 

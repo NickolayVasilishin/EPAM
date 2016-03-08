@@ -1,6 +1,7 @@
-package com.epam.javase02.t02.preson;
+package com.epam.javase02.t02.person;
 
 import com.epam.javase02.t02.item.CancelleryItem;
+import com.epam.javase02.t03.NewbieCancellerySet;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -15,7 +16,12 @@ public class Person {
 
     public Person(String name) {
         this.name = name;
-        items = new LinkedList<CancelleryItem>();
+        items = new LinkedList();
+    }
+
+    public Person(String name, NewbieCancellerySet set) {
+        this.name = name;
+        items = set.get();
     }
 
     public String getName() {
@@ -43,6 +49,11 @@ public class Person {
         return i;
     }
 
+    /**
+     * Not very useful because you have to cast returned list to needed type.
+     * @param clazz - class is used as name or type of cancellery item.
+     * @return list of CancelleryItem's which have to be casted.
+     */
     public List<CancelleryItem> getAllOf(Class<? extends CancelleryItem> clazz) {
         final LinkedList<CancelleryItem> foundItems = new LinkedList<>();
         items.stream().filter(cancelleryItem -> cancelleryItem.getClass().equals(clazz)).forEach(foundItems::add);

@@ -2,6 +2,8 @@ package com.epam.javase02.t02.item;
 
 /**
  * Created by Nick on 04.03.2016.
+ *
+ * Only eraser can erase notes on paper.
  */
 public class Eraser extends CancelleryItem {
 
@@ -14,5 +16,8 @@ public class Eraser extends CancelleryItem {
         return this;
     }
 
-
+    @Override
+    public String toString() {
+        return super.toString("");
+    }
 }
