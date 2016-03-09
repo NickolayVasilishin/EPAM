@@ -18,8 +18,8 @@ public class MultiArray {
         }
     }
 
-    @Override
-    public String toString() {
+
+    public String getAsStringTable() {
         StringBuilder s = new StringBuilder();
         for(int[] row:array) {
             for (int element : row) {
@@ -31,7 +31,7 @@ public class MultiArray {
     }
 
     public static void main(String[] args) {
-        System.out.println(new MultiArray(10,15));
+        System.out.println(new MultiArray(10,15).getAsStringTable());
     }
 
 }
