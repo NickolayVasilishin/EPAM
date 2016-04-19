@@ -1,6 +1,7 @@
 package com.epam.javase03.t01;
 
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class CrazyLogger {
      */
     private static final String RE_LOG_PATTERN = "((?:\\d{2,4}[-:]?){5})\\s\\[(\\w*)\\]\\s-\\s(.*)";
     private static final String TAG = "INFO";
-    private static final String LOG_DATE_FORMAT = "dd-MM-YYYY:HH-mm";
+    private static final String LOG_DATE_FORMAT = "dd-MM-yyyy:HH-mm";
     private static final String LOG_FORMAT = "{0} [{1}] - {2}\n";
     private LoggerSearchRule searchRule;
     private StringBuilder logs;
@@ -106,10 +107,10 @@ public class CrazyLogger {
             stream = stream.filter(s -> time(s).isBefore(searchRule.getEndTime()));
         if (searchRule.getSequence() != null)
             stream = stream.filter(s -> message(s).toLowerCase().contains(searchRule.getSequence()));
-        if (searchRule.getTag() != null)
+        if (searchRule.getTag() != null) {
             stream = stream.filter(s -> tag(s).equals(searchRule.getTag()));
-        //TODO logs will be inlined?
-        return stream.map(s -> s.concat("\n")).collect(Collectors.joining("\n"));
+        }
+        return stream.collect(Collectors.joining("\n"));
     }
 
     private LocalDateTime time(String logEntry) {
