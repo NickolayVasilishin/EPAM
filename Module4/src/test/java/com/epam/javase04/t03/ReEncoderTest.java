@@ -2,6 +2,8 @@ package com.epam.javase04.t03;
 
 import org.junit.Test;
 
+import java.nio.file.Paths;
+
 import static org.junit.Assert.*;
 
 /**

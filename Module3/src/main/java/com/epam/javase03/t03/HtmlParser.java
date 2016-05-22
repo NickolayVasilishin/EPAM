@@ -43,9 +43,9 @@ public class HtmlParser {
                 if(containsReference()) {
                     currentReference = getReference();
                     if(currentReference > currentPicture)
-                        System.out.println("Wrong reference at line: " + currentLineNumber +
+                        System.err.println("Wrong reference at line: " + currentLineNumber +
                                 ". Referenced picture " + currentReference +
-                                " while last int pic was " + currentPicture);
+                                " while last introduced picture was " + currentPicture);
                     Stream.of(extractSentences()).forEach(System.out::println);
                 }
 

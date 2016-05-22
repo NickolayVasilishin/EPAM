@@ -60,8 +60,9 @@ public class InternationalQuiz {
             default: setLocale(new Locale("en", "us")); break;
         }
         System.out.println(greeting());
-        while(scanner.hasNext() && !scanner.nextLine().equals(exit())) {
-            int number = scanner.nextInt();
+        String input;
+        while(scanner.hasNext() && !(input = scanner.nextLine()).equals(exit())) {
+            int number = Integer.valueOf(input);
             System.out.println(question(number));
             System.out.println(answer(number));
         }

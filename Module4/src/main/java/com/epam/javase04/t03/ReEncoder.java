@@ -6,8 +6,8 @@ import java.io.*;
  * Created by Nick on 29.03.2016.
  */
 public class ReEncoder {
-    public static final String INPUT_FILE_UTF_8 = "Module4\\src\\main\\resources\\utf-8.txt";
-    public static final String OUTPUT_FILE_UTF_16 = "Module4\\src\\main\\resources\\utf-16.txt";
+    public static final String INPUT_FILE_UTF_8 = "src\\main\\resources\\utf-8.txt";
+    public static final String OUTPUT_FILE_UTF_16 = "src\\main\\resources\\utf-16.txt";
 
     public static void translate(String inputFile, String outputFile) {
         byte[] buffer = new byte[2048];

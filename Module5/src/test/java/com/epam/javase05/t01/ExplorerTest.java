@@ -18,20 +18,22 @@ public class ExplorerTest {
         explorer = new Explorer();
     }
 
-    @Test
+    @Test(expected = IOException.class)
     public void test() throws IOException {
-//        explorer.cd("");
         explorer.pwd();
         explorer.cat("pom.xml");
         explorer.touch("NEWFILE");
         explorer.ls(".");
+        //Exception here
+        explorer.cd("pom.xml");
+        explorer.write("NEWFILE", "new test", true);
+        explorer.write("NEWFILE", "\nanother new test", true);
+        explorer.cat("NEWFILE");
+        explorer.rm("NEWFILE");
+        //This will fail on linux-based systems
         explorer.cd("C:/");
         explorer.pwd();
         explorer.ls(".");
-        explorer.cd("pom.xml");
-        //UNIMPLEMENTED
-        explorer.rm("");
-        explorer.write("", true);
     }
 
 }
