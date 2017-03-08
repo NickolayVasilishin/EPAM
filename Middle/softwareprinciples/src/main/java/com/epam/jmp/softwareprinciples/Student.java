@@ -1,4 +1,7 @@
-package dry1;
+package com.epam.jmp.softwareprinciples;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Student {
     private long id;

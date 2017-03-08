@@ -1,4 +1,4 @@
-package dry1;
+package com.epam.jmp.softwareprinciples;
 
 import java.util.List;
 
