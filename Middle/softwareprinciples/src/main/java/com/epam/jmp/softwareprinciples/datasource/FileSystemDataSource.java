@@ -8,24 +8,23 @@ import java.io.*;
 /**
  * Created by User on 3/8/2017.
  */
-public class FileSystemDataSource implements DataSource {
+public enum FileSystemDataSource implements DataSource {
+    /**
+     * FileSystemDataSource should be singleton because files do not support concurrent access: if there will be
+     * tries to write to one file from multiple threads in parallel, result information in it will be inconsistent.
+     */
+    
+    INSTANCE;
 
-    private static volatile FileSystemDataSource instance;
     private File file;
     private static final String SEPARATOR = ",";
-    private FileSystemDataSource(File file) {
-        this.file = file;
+
+    FileSystemDataSource() {
     }
 
-    public static FileSystemDataSource open(File file) {
-        if (instance == null) {
-            synchronized (FileSystemDataSource.class) {
-                if (instance == null) {
-                    instance = new FileSystemDataSource(file);
-                }
-            }
-        }
-        return instance;
+    public FileSystemDataSource open(File file) {
+        this.file = file;
+        return this;
     }
 
 

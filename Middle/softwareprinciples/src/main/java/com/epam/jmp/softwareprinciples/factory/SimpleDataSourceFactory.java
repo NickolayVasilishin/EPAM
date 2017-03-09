@@ -15,7 +15,7 @@ public class SimpleDataSourceFactory implements DataSourceFactory {
         File file = new File(url);
         if (file.exists()) {
             System.out.println("Opening file.");
-            return FileSystemDataSource.open(file);
+            return FileSystemDataSource.INSTANCE.open(file);
         } else {
             System.out.println("Opening connection to DB.");
             return new DataBaseDataSource(url);
