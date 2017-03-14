@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <artifactId>software-principles</artifactId>
     <parent>
         <artifactId>Middle</artifactId>
         <groupId>com.epam.jmp</groupId>
@@ -21,14 +22,6 @@
             </plugin>
         </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-    </dependencies>
 
 
-    <artifactId>software-principles</artifactId>
 </project>
