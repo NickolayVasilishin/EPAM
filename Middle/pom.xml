@@ -11,6 +11,7 @@
     <modules>
         <module>softwareprinciples</module>
         <module>classloading</module>
+        <module>structurepatterns</module>
     </modules>
 
 

@@ -1,0 +1,6 @@
+'name','phoneNumber','surname'
+'Georg','+1-123-42-52','Orwell'
+'Harry','+2-456-42-52','Harrison'
+'Aldous','+3-567-42-52','Huxley'
+'Arthur','+4-678-42-52','Clarke'
+'Isaak','+5-789-42-52','Azimov'
