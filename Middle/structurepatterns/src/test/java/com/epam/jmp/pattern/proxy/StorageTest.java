@@ -1,6 +1,5 @@
 package com.epam.jmp.pattern.proxy;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +13,8 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class StorageTest {
 
-    private String phonebookUrl;
     protected DataStorage storage;
+    private static String phonebookUrl;
 
     protected abstract DataStorage getDataStorage();
     protected abstract String getPhonebookUrl();
@@ -30,7 +29,7 @@ public abstract class StorageTest {
     public void getPerson() throws Exception {
         Person personOrwell = storage
                 .setSource(phonebookUrl)
-                .getPerson("Georg", "Orwell");
+                .getPerson("Georg", "Orwell").get(0);
         Person expectedPerson = new Person()
                 .setName("Georg")
                 .setSurname("Orwell")
@@ -42,7 +41,7 @@ public abstract class StorageTest {
     public void getPersonFrequently() throws Exception {
         Person personOrwell = storage
                 .setSource(phonebookUrl)
-                .getPerson("Georg", "Orwell");
+                .getPerson("Georg", "Orwell").get(0);
         Person expectedPerson = new Person()
                 .setName("Georg")
                 .setSurname("Orwell")
@@ -67,7 +66,7 @@ public abstract class StorageTest {
                 .savePerson(person);
         Person personVonnegut = storage
                 .setSource(phonebookUrl)
-                .getPerson("Kurt", "Vonnegut");
+                .getPerson("Kurt", "Vonnegut").get(0);
         assertEquals(person, personVonnegut);
     }
 

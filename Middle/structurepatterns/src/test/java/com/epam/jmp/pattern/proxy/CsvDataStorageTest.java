@@ -1,9 +1,5 @@
 package com.epam.jmp.pattern.proxy;
 
-import org.junit.Before;
-
-import javax.xml.crypto.Data;
-
 
 public class CsvDataStorageTest extends StorageTest {
 

@@ -4,19 +4,27 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.exceptions.CsvConstraintViolationException;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
+import java.beans.IntrospectionException;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class CsvDataStorage extends CsvToBean<Person> implements DataStorage {
-    private static final Logger LOGGER = Logger.getLogger(CsvDataStorage.class.getName());
-    public final static CsvDataStorage INSTANCE = new CsvDataStorage();
+    public static final CsvDataStorage INSTANCE = new CsvDataStorage();
     private static final char SEPARATOR = ',';
     private static final char QUOTECHAR = '\'';
+    private final Logger LOGGER = Logger.getLogger(CsvDataStorage.class.getName());
     private String fileName;
     private HeaderColumnNameMappingStrategy<Person> strategy;
 
@@ -26,29 +34,43 @@ public class CsvDataStorage extends CsvToBean<Person> implements DataStorage {
         strategy.setType(Person.class);
     }
 
-    public Person getPerson(String name, String surname) throws Exception {
+    public List<Person> getPerson(String name, String surname) throws IOException {
         LOGGER.info("Getting person: " + name + " " + surname);
-        // Rethrow exception
         try (CSVReader reader = new CSVReader(new FileReader(fileName), SEPARATOR, QUOTECHAR)) {
+            List<String> problemLines = new LinkedList<>();
             CsvToBean<Person> csvToBean = new CsvToBean<>();
+
             List<Person> personList = csvToBean.parse(strategy, reader, line -> {
                 try {
-                    Person person = CsvDataStorage.this.processLine(strategy, line);
+                    Person person = processLine(strategy, line);
                     if (person.getName().equals(name) && person.getSurname().equals(surname)) {
                         return true;
                     }
-                } catch (Exception e) {
-                    System.out.println(line);
-                    e.printStackTrace();
+                } catch (InstantiationException | InvocationTargetException | IllegalAccessException | IntrospectionException e) {
+                    // I think, these things cannot be handled by user
+                    throw new RuntimeException(e);
+                } catch (CsvRequiredFieldEmptyException | CsvConstraintViolationException | CsvDataTypeMismatchException e) {
+                    // These exceptions cannot be thrown from here.
+                    problemLines.add(Arrays.toString(line) + " because of " + e.getMessage());
                 }
                 return false;
             });
 
-            return personList.isEmpty() ? null : personList.get(0);
+            if (!problemLines.isEmpty()) {
+                // Is it good idea to throw exception here if some lines were corrupted?
+                // throw new DataStorageException(problemLines);
+
+                // Or maybe better
+                LOGGER.warning("Total " + problemLines.size() + " were not loaded.\n"
+                        + String.join("\n", problemLines));
+                // I know, the best idea to use better library
+            }
+
+            return personList;
         }
     }
 
-    public DataStorage savePerson(Person person) throws Exception {
+    public DataStorage savePerson(Person person) throws DataStorageException, IOException {
         LOGGER.info("Saving person " + person);
         // Rethrow exception
         try (StringWriter stringWriter = new StringWriter();
@@ -60,6 +82,10 @@ public class CsvDataStorage extends CsvToBean<Person> implements DataStorage {
             // This weird library always wants to write header and only then the bean
             writer.append(stringWriter.getBuffer().toString().split("\n")[1]);
             writer.append(("\n"));
+        } catch (CsvRequiredFieldEmptyException e) {
+            throw new DataStorageException("Field " + e.getDestinationField() + " cannot be empty. Got " + person, e);
+        } catch (CsvDataTypeMismatchException e) {
+            throw new DataStorageException("Types mismatch. Got " + person + ", expected" + e.getSourceObject(), e);
         }
         return this;
     }

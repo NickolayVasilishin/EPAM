@@ -1,17 +1,20 @@
 package com.epam.jmp.pattern.proxy;
 
+import java.io.IOException;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class CsvDataStorageCacheProxy implements DataStorage {
+    private static final String COMPOSITE_DELIMITER = "_";
     private static final Logger LOGGER = Logger.getLogger(CsvDataStorageCacheProxy.class.getName());
-    public static final String COMPOSITE_DELIMITER = "_";
     private DataStorage storage;
     private final int MAX_CAPACITY = 3;
-    private Map<String, Person> lruCache = new LinkedHashMap<String, Person>(MAX_CAPACITY, 0.75f, true) {
+    private Map<String, List<Person>> lruCache = new LinkedHashMap<String, List<Person>>(MAX_CAPACITY, 0.75f, true) {
         @Override
-        protected boolean removeEldestEntry(Map.Entry<String, Person> eldest) {
+        protected boolean removeEldestEntry(Map.Entry<String, List<Person>> eldest) {
             if (size() > MAX_CAPACITY) {
                 LOGGER.info("Removing eldest entry.");
             }
@@ -25,29 +28,23 @@ public class CsvDataStorageCacheProxy implements DataStorage {
     }
 
     @Override
-    public Person getPerson(String name, String surname) throws Exception {
+    public List<Person> getPerson(String name, String surname) throws IOException {
         LOGGER.info("Getting person: " + name + " " + surname);
         String key = generateCompositeKey(name, surname);
-        if (lruCache.containsKey(key)) {
-            return lruCache.get(key);
-        } else {
-            return loadFromStorage(name, surname);
+        List<Person> persons = lruCache.get(key);
+        if (persons == null) {
+            persons = loadFromStorage(name, surname);
         }
-    }
+        return persons;
 
-    private Person loadFromStorage(String name, String surname) throws Exception {
-        LOGGER.info("Cache miss. Getting " + name + " " + surname + " from storage.");
-        Person person = storage.getPerson(name, surname);
-        lruCache.put(generateCompositeKey(name, surname), person);
-        return person;
     }
 
     @Override
-    public DataStorage savePerson(Person person) throws Exception {
+    public DataStorage savePerson(Person person) throws DataStorageException, IOException {
         LOGGER.info("Saving person " + person);
         String key = generateCompositeKey(person.getName(), person.getSurname());
-        lruCache.put(key, person);
         storage.savePerson(person);
+        putToCache(key, Collections.singletonList(person));
         return this;
     }
 
@@ -57,7 +54,26 @@ public class CsvDataStorageCacheProxy implements DataStorage {
         return this;
     }
 
+    private List<Person> loadFromStorage(String name, String surname) throws IOException {
+        LOGGER.info("Cache miss. Getting " + name + " " + surname + " from storage.");
+        List<Person> persons = storage.getPerson(name, surname);
+        String key = generateCompositeKey(name, surname);
+        putToCache(key, persons);
+        return persons;
+    }
+
+    private void putToCache(String key, List<Person> persons) {
+        if (lruCache.containsKey(key)) {
+            lruCache.get(key).addAll(persons);
+        } else {
+            lruCache.put(key, persons);
+        }
+    }
+
     private String generateCompositeKey(String name, String surname) {
         return name + COMPOSITE_DELIMITER + surname;
     }
+
+
+
 }
