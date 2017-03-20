@@ -12,6 +12,7 @@
         <module>softwareprinciples</module>
         <module>classloading</module>
         <module>structurepatterns</module>
+        <module>webservice</module>
     </modules>
 
 
