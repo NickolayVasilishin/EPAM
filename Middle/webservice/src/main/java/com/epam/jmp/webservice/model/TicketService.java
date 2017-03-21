@@ -36,6 +36,17 @@ public class TicketService {
     private Map<BigDecimal, Ticket> ticketMap;
     private TicketService() {
         ticketMap = new ConcurrentHashMap<>();
+        // For testing purpose
+        ticketMap.put(new BigDecimal("11675586033148451950479435610212677204"), new Ticket(
+                new BigDecimal("11675586033148451950479435610212677204"),
+                "Saint-Petersburg",
+                "Moscow",
+                LocalDateTime.parse("2017-12-03T10:15:00"),
+                LocalDateTime.parse("2017-12-04T10:00:00"),
+                new Money(new BigDecimal(100)),
+                Ticket.State.BOOKED,
+                new Person("Isaak", "Asimov", "", "4-08-1919")
+        ));
     }
 
     public BigDecimal bookTicket(Person person,

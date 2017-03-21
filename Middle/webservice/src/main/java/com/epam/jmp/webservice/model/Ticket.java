@@ -2,15 +2,11 @@ package com.epam.jmp.webservice.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Currency;
-
 public class Ticket {
-
     public enum State {
         BOOKED,
         PAYED
     }
-
     private BigDecimal number;
     private String departureCity;
     private String arrivalCity;

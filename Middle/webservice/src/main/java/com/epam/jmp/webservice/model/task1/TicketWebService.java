@@ -9,7 +9,7 @@ import javax.xml.ws.Endpoint;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@WebService(name = "tickets")
+@WebService
 public class TicketWebService {
     private final TicketService ticketService = TicketService.getInstance();
 
