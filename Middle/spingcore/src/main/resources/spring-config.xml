@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--Create Spring console app. Use XML as configuration format.-->
+
+
+    <!--1. Create bean A, use DI via setters, use property placeholder for values-->
+    <!--5. Create bean F and log all possible steps from his lifecycle (lifecycle of Spring bean).-->
+    <bean id="passenger" class="com.epam.jmp.springcore.bean.Person">
+        <property name="dateOfBirth" value="4-08-1919"/>
+        <property name="firstName" value="Isaak"/>
+        <property name="lastName" value="Asimov"/>
+    </bean>
+    <bean class="com.epam.jmp.springcore.Accoucheur"/>
+
+
+    <!--2. Create bean B, use DI via constructor (bean A as argument of constructor)-->
+    <bean id="ticket" class="com.epam.jmp.springcore.bean.Ticket" scope="prototype">
+        <constructor-arg name="state" value="BOOKED"/>
+        <constructor-arg name="arrivalCity" value="Saint-Petersburg"/>
+        <constructor-arg name="departureCity" value="Moscow"/>
+        <constructor-arg name="number" value="109928"/>
+        <constructor-arg name="arrivalTime" value="2017-12-03T10:15:00"/>
+        <constructor-arg name="departureTime" value="2017-12-04T10:00:00"/>
+        <constructor-arg name="passenger" ref="passenger"/>
+        <constructor-arg name="price" ref="money"/>
+    </bean>
+
+    <!--3. Create bean C with singleton scope and bean D with prototype scope. We need to add bean D as property of bean C.-->
+    <!--Pay attention that they have different scopes. Consider Lookup Method Injection.-->
+    <bean id="singletonTicketService" class="com.epam.jmp.springcore.bean.TicketService" scope="singleton">
+        <property name="ticket" ref="ticket"/>
+        <lookup-method name="bookTicket" bean="ticket"/>
+        <!--<util:map>-->
+        <!--<entry key="109928" value-ref="ticket"/>-->
+        <!--</util:map>-->
+    </bean>
+
+    <!--4. Create bean E and replace logic of one of his method by Method Replacement-->
+    <bean id="methodReplacer" class="com.epam.jmp.springcore.LazyTicketServiceEmployee"/>
+    <bean id="lazyTicketService" class="com.epam.jmp.springcore.bean.TicketService">
+        <replaced-method name="workAllDay" replacer="methodReplacer"/>
+    </bean>
+
+    <bean id="money" class="com.epam.jmp.springcore.bean.Money">
+        <constructor-arg name="amount" value="1000"/>
+    </bean>
+
+</beans>
