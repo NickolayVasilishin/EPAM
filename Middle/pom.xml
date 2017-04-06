@@ -12,6 +12,7 @@
         <module>structurepatterns</module>
         <module>webservice</module>
         <module>spingcore</module>
+        <module>advancedjdbc</module>
     </modules>
 
 
