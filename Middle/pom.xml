@@ -13,6 +13,7 @@
         <module>webservice</module>
         <module>spingcore</module>
         <module>advancedjdbc</module>
+        <module>lambdas</module>
     </modules>
 
 
