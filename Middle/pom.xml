@@ -15,6 +15,7 @@
         <module>advancedjdbc</module>
         <module>lambdas</module>
         <module>concurrency</module>
+        <module>memorymanagement</module>
     </modules>
 
 
