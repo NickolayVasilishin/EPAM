@@ -16,6 +16,7 @@
         <module>lambdas</module>
         <module>concurrency</module>
         <module>memorymanagement</module>
+        <module>nosql</module>
     </modules>
 
 
