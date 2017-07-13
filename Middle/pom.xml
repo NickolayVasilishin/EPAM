@@ -18,6 +18,7 @@
         <module>memorymanagement</module>
         <module>nosql</module>
         <module>webapp</module>
+        <module>webapp</module>
     </modules>
 
 
